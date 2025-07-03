@@ -1,0 +1,194 @@
+
+    body {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        margin: 0;
+        height: 100vh;
+        position: relative;
+        background-color: #0d021f;
+        font-family: 'Orbitron', sans-serif;
+
+    }
+
+    #p2-score {
+        grid-column: 1;
+        grid-row: 1;
+        align-self: center;
+        justify-self: center;
+    }
+
+    #p1-score {
+        grid-column: 3;
+        grid-row: 3;
+        align-self: center;
+        justify-self: center;
+    }
+
+    #tic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+    .ttt-cell {
+    width: 80px;
+    height: 80px;
+    font-size: 4rem;
+    line-height: 1;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #d9b0ff;
+    text-shadow: 0 0 6px #d9b0ff;
+    border: 2px solid #d9b0ff;
+    border-radius: 10px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    }
+
+    .ttt-cell:active {
+    transform: scale(0.95);
+    }
+
+
+
+    .ttt-cell::after {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    top: 120%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--glow-spread-color);
+    filter: blur(2em);
+    opacity: .7;
+    transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+    }
+
+    .ttt-cell:hover {
+    background-color: rgba(217, 176, 255, 0.1);
+    }
+
+    .ttt-cell:active {
+    transform: scale(0.95);
+    }
+
+
+    .ttt-cell.played-x {
+    color: #ff4ced;
+    }
+
+    .ttt-cell.played-o {
+    color: #44d8a4  ;
+
+    }
+
+
+    #p2-score, #p1-score {
+        font-size: 26px;
+        color: #cccccc;
+    }
+
+    @media (max-width: 500px) {
+  .ttt-cell {
+    width: 60px;
+    height: 60px;
+    font-size: 3rem;
+  }
+}
+
+ #turn-indicator {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: #ffd166;
+    text-shadow: 0 0 5px #ffd166;
+    justify-content: center;
+    font-family: 'Bungee Hairline', cursive;
+
+ }
+
+ .neon-text {
+  color: #20babf;
+  font-size: 24px;
+  text-shadow:
+    0 0 5px #00f7ff,
+    0 0 10px #00f7ff,
+    0 0 20px #00f7ff;
+}
+
+    /*restart button*/
+    #restart-btn {
+    grid-row: 2;
+    grid-column: 3;
+    justify-self: center;
+    align-self: center;
+    }
+
+    .btn-class-name {
+    --primary: 255, 90, 120;
+    --secondary: 150, 50, 60;
+    width: 60px;
+    height: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    outline: 10px solid rgb(var(--primary), .5);
+    border-radius: 100%;
+    position: relative;
+    transition: .3s;
+    
+    }
+
+    .btn-class-name .back {
+    background: rgb(var(--secondary));
+    border-radius: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    }
+
+    .btn-class-name .front {
+    background: linear-gradient(0deg, rgba(var(--primary), .6) 20%, rgba(var(--primary)) 50%);
+    box-shadow: 0 .5em 1em -0.2em rgba(var(--secondary), .5);
+    border-radius: 100%;
+    position: absolute;
+    border: 1px solid rgb(var(--secondary));
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: inherit;
+    transform: translateY(-15%);
+    transition: .15s;
+    color: rgb(var(--secondary));
+    }
+
+    .btn-class-name:active .front {
+    transform: translateY(0%);
+    box-shadow: 0 0;
+    }
