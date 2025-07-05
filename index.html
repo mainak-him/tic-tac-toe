@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicTacToe</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Home screen -->
+    <div id="home-screen">
+      <h1 class="neon-text">Tic Tac Toe</h1>
+      <button class="menu-btn" onclick="selectMode('pvp')">2 Player Mode</button>
+      <button class="menu-btn" onclick="selectMode('cpu')">Play vs Computer</button>
+    </div>
+
+    <div id="name-input-screen" style="display:none;">
+      <h2 class="neon-text">Enter Names</h2>
+      <div id="name-fields"></div>
+      <button class="menu-btn" onclick="startGame()">Start Game</button>
+    </div>
+    <button id="back-home" class="menu-btn" style="display:none; position: absolute; bottom: 20px; left: 20px;" onclick="goHome()">⟵ Home</button>
+
+    <!-- Game screen -->
     <div class="neon-text" id="p2-score">
         <p>Player 2 Score: 0</p>
     </div>
-    <div class="neon-text" id="turn-indicator">Player 1's Turn</div>
+    <div class="neon-text" id="turn-indicator">Player's Turn</div>
     <div id="tic-grid">
         <button class="btn ttt-cell" data-symbol="?"></button>
         <button class="btn ttt-cell" data-symbol="?"></button>
@@ -33,6 +48,9 @@
     <div class="neon-text" id="p1-score">
         <p>Player 1 score: 0</p>
     </div>
+
+    <!-- Winner Banner -->
+    <div id="winner-banner"></div>
     <script src="./script.js"></script>
 </body>
 </html>
