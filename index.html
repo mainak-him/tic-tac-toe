@@ -13,16 +13,43 @@
         <p>Player 2 Score: 0</p>
     </div>
     <div class="neon-text" id="turn-indicator">Player 1's Turn</div>
+    <div id="game-options">
+      <button class="btn-home">Home</button>
+      <button class="btn-home">Audio</button>
+      <button class="btn-home">Restart Game</button>
+    </div>
+    <div id="score-tracker">
+<table id="score-table">
+  <thead>
+    <tr>
+      <th>Round</th>
+      <th>Player 1</th>
+      <th>Player 2</th>
+    </tr>
+  </thead>
+  <tbody id="score-body">
+    <!-- Dynamic rows -->
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Total</td>
+      <td id="p1-total">W: 0 | D: 0 | L: 0</td>
+      <td id="p2-total">W: 0 | D: 0 | L: 0</td>
+    </tr>
+  </tfoot>
+</table> 
+</div>
+
     <div id="tic-grid">
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
     </div>
     <div id="restart-btn">
         <button id="btn-restart" class="btn-class-name">
@@ -30,6 +57,10 @@
             <span class="front">⟲</span>
         </button>
     </div>
+    <div id="timer-container">
+      <span id="timer">00:00</span>
+    </div>
+
     <div class="neon-text" id="p1-score">
         <p>Player 1 score: 0</p>
     </div>
