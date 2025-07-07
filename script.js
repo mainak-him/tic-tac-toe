@@ -7,14 +7,24 @@ let player2Name = "Player 2";
 let player1Score = 0;
 let player2Score = 0;
 let isVsComputer = false;
+let timerInterval = null;
+let timerStatus = "stopped";
+let seconds = 0;
+let minutes = 0;
+let leadingSeconds = "0";
+let leadingMinutes = "0";
 
 const cells = document.querySelectorAll(".ttt-cell");
 const turnIndicator = document.getElementById("turn-indicator");
 const p1ScoreDisplay = document.getElementById("p1-score");
 const p2ScoreDisplay = document.getElementById("p2-score");
+const p1TableName = document.getElementById("tFirstP");
+const p2TableName = document.getElementById("tSecondP");
+const p1TableScore = document.getElementById("p1-total");
+const p2TableScore = document.getElementById("p2-total");
 const banner = document.getElementById("winner-banner");
 
-// Go home button
+// Go home button on the game page
 function goHome() {
     // Resetting UI
     document.getElementById("home-screen").style.display = "block";
@@ -24,7 +34,9 @@ function goHome() {
     document.getElementById("p1-score").style.display = "none";
     document.getElementById("p2-score").style.display = "none";
     document.getElementById("restart-btn").style.display = "none";
-    document.getElementById("back-home").style.display = "none";
+    document.getElementById("timer-container").style.display = "none";
+    document.getElementById("score-tracker").style.display = "none";
+    document.getElementById("game-options").style.display = "none";
     banner.style.display = "none";
 
     // Resetting game state
@@ -35,8 +47,10 @@ function goHome() {
     startingPlayer = "X"; 
     updateScoreText();
     resetBoard();
+    resetScoreboard();
 }
 
+//For the home page buttons, comp mode or pvp mode
 function selectMode(mode) {
     gameMode = mode;
     document.getElementById("home-screen").style.display = "none";
@@ -52,17 +66,23 @@ function selectMode(mode) {
         `;
         isVsComputer = false;
     } else {
+        let namePrompt = document.querySelector("#prompt")
+        namePrompt.textContent = "Enter player name"
         nameFields.innerHTML = `<input id="player1" placeholder="Your Name" />`;
         isVsComputer = true;
     }
 }
 
+// Game begins... setting up the board
 function startGame() {
+    timerInterval = window.setInterval(gameTimer,1000);
     const name1 = document.getElementById("player1").value || "Player 1";
     const name2 = isVsComputer ? "Computer" : (document.getElementById("player2")?.value || "Player 2");
 
     player1Name = name1;
     player2Name = name2;
+    p1TableName.textContent = `${name1}`;
+    p2TableName.textContent = `${name2}`;
 
     resetBoard();
 
@@ -72,21 +92,59 @@ function startGame() {
     document.getElementById("p1-score").style.display = "block";
     document.getElementById("p2-score").style.display = "block";
     document.getElementById("restart-btn").style.display = "block";
-    document.getElementById("back-home").style.display = "inline-block";
+    document.getElementById("timer-container").style.display = "flex";
+    document.getElementById("score-tracker").style.display = "block";
+    document.getElementById("game-options").style.display = "flex";
 
     updateTurnText();
     updateScoreText();
 }
 
+//game timer
+function gameTimer(){
+  seconds++;
+  if(seconds==60)
+  {
+    minutes++;
+    seconds = 0
+  }
+  seconds<10 ? leadingSeconds = "0" + seconds : leadingSeconds = seconds;
+  minutes<10 ? leadingMinutes = "0" + minutes : leadingMinutes = minutes;
+
+  let clock = document.getElementById("timer");
+  clock.textContent = `${leadingMinutes}:${leadingSeconds}`;
+}
+//resetting game timer
+function resetTimer(){
+    seconds = 0;
+    minutes = 0;
+    document.getElementById("timer").textContent = "00:00";
+}
+
+//restarting the game
+function restartGame(){
+    currentPlayer = "X";
+    updateTurnText();
+
+    player1Score = 0;
+    player2Score = 0;
+    updateScoreText();
+
+    resetBoard();
+    resetScoreboard();
+}
+//Player turns updates
 function updateTurnText() {
     turnIndicator.textContent = `${currentPlayer === "X" ? player1Name : player2Name}'s Turn`;
 }
 
+//Score updates
 function updateScoreText() {
     p1ScoreDisplay.innerHTML = `<p>${player1Name} Score: ${player1Score}</p>`;
     p2ScoreDisplay.innerHTML = `<p>${player2Name} Score: ${player2Score}</p>`;
 }
 
+//Board resets after every round
 function resetBoard() {
     board = ["", "", "", "", "", "", "", "", ""];
     currentPlayer = startingPlayer;
@@ -97,9 +155,15 @@ function resetBoard() {
         cell.disabled = false;
     });
 
+    setTimeout(resetTimer,500);
     updateTurnText();
+
+    if (isVsComputer && currentPlayer === "O") {
+        setTimeout(computerMove, 500);
+    }
 }
 
+// checking for game outcome
 function checkWinner() {
     const winPatterns = [
         [0,1,2], [3,4,5], [6,7,8],
@@ -110,15 +174,65 @@ function checkWinner() {
     for (let pattern of winPatterns) {
         const [a, b, c] = pattern;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            updateScoreboard(board[a]);
             return board[a];
         }
     }
 
-    if (!board.includes("")) return "draw";
+    if (!board.includes(""))
+        {
+            updateScoreboard("draw");
+            return "draw";
+        } 
     return null;
 }
 
+//scoreboard update
+let p1Win = 0;
+let p1Loss = 0;
+let p1Draw = 0;
+let p2Win = 0;
+let p2Loss = 0;
+let p2Draw = 0;
+function updateScoreboard(result){
+    if (result === "X")
+    {
+        p1Win++;
+        p2Loss++;
+        p1TableScore.textContent = `W: ${p1Win} | D: ${p1Draw} | L: ${p1Loss}`
+        p2TableScore.textContent = `W: ${p2Win} | D: ${p2Draw} | L: ${p2Loss}`
+    }
+    else if (result === "O")
+    {
+        p2Win++;
+        p1Loss++;
+        p1TableScore.textContent = `W: ${p1Win} | D: ${p1Draw} | L: ${p1Loss}`
+        p2TableScore.textContent = `W: ${p2Win} | D: ${p2Draw} | L: ${p2Loss}`
+    }
+    else
+    {
+        p1Draw++;
+        p2Draw++;
+        p1TableScore.textContent = `W: ${p1Win} | D: ${p1Draw} | L: ${p1Loss}`
+        p2TableScore.textContent = `W: ${p2Win} | D: ${p2Draw} | L: ${p2Loss}`
+    }
+}
+//resetting scoreboard
+function resetScoreboard(){
+    p1Win = 0;
+    p1Loss = 0;
+    p1Draw = 0;
+    p2Win = 0;
+    p2Loss = 0;
+    p2Draw = 0;
+
+    p1TableScore.textContent = `W: ${p1Win} | D: ${p1Draw} | L: ${p1Loss}`
+    p2TableScore.textContent = `W: ${p2Win} | D: ${p2Draw} | L: ${p2Loss}`
+}
+
+// Banner for game outcome
 function showWinnerBanner(message) {
+    window.clearInterval(timerInterval);
     banner.textContent = message;
     banner.style.display = "block";
     banner.classList.remove("fade-in");
@@ -128,6 +242,10 @@ function showWinnerBanner(message) {
     setTimeout(() => {
         banner.style.display = "none";
     }, 1800);
+
+    setTimeout(()=>{
+        timerInterval = window.setInterval(gameTimer,1000);
+    },2500);
 }
 
 function handleClick(index) {

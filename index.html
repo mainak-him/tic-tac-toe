@@ -4,52 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicTacToe</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Home screen -->
+   <!-- Home screen -->
     <div id="home-screen">
       <h1 class="neon-text">Tic Tac Toe</h1>
       <button class="menu-btn" onclick="selectMode('pvp')">2 Player Mode</button>
       <button class="menu-btn" onclick="selectMode('cpu')">Play vs Computer</button>
     </div>
 
+    <!-- name input screen -->
     <div id="name-input-screen" style="display:none;">
-      <h2 class="neon-text">Enter Names</h2>
+      <h2 class="neon-text" id="prompt">Enter Names</h2>
       <div id="name-fields"></div>
       <button class="menu-btn" onclick="startGame()">Start Game</button>
     </div>
-    <button id="back-home" class="menu-btn" style="display:none; position: absolute; bottom: 20px; left: 20px;" onclick="goHome()">⟵ Home</button>
-
-    <!-- Game screen -->
+  <!-- Game screen -->
     <div class="neon-text" id="p2-score">
         <p>Player 2 Score: 0</p>
     </div>
-    <div class="neon-text" id="turn-indicator">Player's Turn</div>
+    <div class="neon-text" id="turn-indicator">Player 1's Turn</div>
+    <div id="game-options">
+      <button class="btn-home" onclick="goHome()">Home</button>
+      <button class="btn-home">Audio</button>
+      <button class="btn-home" onclick="restartGame()">Restart Game</button>
+    </div>
+    <div id="score-tracker">
+<table id="score-table">
+  <thead>
+    <tr>
+      <th>Round</th>
+      <th id="tFirstP">Player 1</th>
+      <th id="tSecondP">Player 2</th>
+    </tr>
+  </thead>
+  <tbody id="score-body">
+    <!-- Dynamic rows -->
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Total</td>
+      <td id="p1-total">W: 0 | D: 0 | L: 0</td>
+      <td id="p2-total">W: 0 | D: 0 | L: 0</td>
+    </tr>
+  </tfoot>
+</table> 
+</div>
+
     <div id="tic-grid">
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
-        <button class="btn ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
+        <button class="ttt-cell" data-symbol="?"></button>
     </div>
     <div id="restart-btn">
         <button id="btn-restart" class="btn-class-name">
             <span class="back"></span>
-            <span class="front">⟲</span>
+            <span class="front" title="Reset board">⟲</span>
         </button>
     </div>
+    <div id="timer-container">
+      <span id="timer">00:00</span>
+    </div>
+
     <div class="neon-text" id="p1-score">
         <p>Player 1 score: 0</p>
     </div>
-
-    <!-- Winner Banner -->
     <div id="winner-banner"></div>
     <script src="./script.js"></script>
 </body>
