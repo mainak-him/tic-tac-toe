@@ -62,7 +62,7 @@
 - **Favicon**: Adobe Stock  
 
 ## Contributors
-- 1.Maina Kamau - css/html/js.
-- 2.Desmond Tutu - js/css/html.
-- 3.Junior Machogu - css/html frontend idea.
+- Maina Kamau - css/html/js.
+- Desmond Tutu - js/css/html.
+- Junior Machogu - css/html frontend idea.
 
