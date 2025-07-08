@@ -64,5 +64,5 @@
 ## Contributors
 - Maina Kamau - css/html/js.
 - Desmond Tutu - js/css/html.
-- Junior Machogu - css/html frontend idea.
+- Junior Machogu - css/html alternative implementation / idea.
 
