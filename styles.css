@@ -518,3 +518,30 @@ button::after {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+  
+  button {
+    cursor: pointer;
+  }
+
+.popup-message {
+    position: fixed;
+    top: -60px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #a64dd6db;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-size: 16px;
+    opacity: 0;
+    transition: top 0.4s ease, opacity 0.4s ease;
+    z-index: 1000;
+}
+
+.popup-message.show {
+    top: 20px; 
+    opacity: 1;
+}
+

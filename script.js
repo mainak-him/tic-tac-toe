@@ -13,7 +13,34 @@ let seconds = 0;
 let minutes = 0;
 let leadingSeconds = "0";
 let leadingMinutes = "0";
+let allowSound = true;
 
+//all sounds are sourced from the internet, copyright free! -music by AGS_project
+//audio files
+const clickSound = new Audio('audio-files/mouse-click-290204.mp3');
+const gameMusic = new Audio('audio-files/8-bit-219384.mp3');
+const homeMusic = new Audio('audio-files/pixel-dreams-259187.mp3');
+const audioPopup = document.getElementById("audio-popup");
+
+gameMusic.loop = true;
+gameMusic.volume = 0.6;
+homeMusic.loop = true;
+homeMusic.volume = 0.4;
+
+document.querySelector("#sound-btn").addEventListener("click", () => {
+    allowSound = !allowSound;
+    soundHandler();
+    const message = allowSound ? "🔊 Audio is ON" : "🔇 Audio is OFF";
+    showAudioPopup(message);
+})
+function showAudioPopup(message) {
+    audioPopup.textContent = message;
+    audioPopup.classList.add("show");
+
+    setTimeout(() => {
+        audioPopup.classList.remove("show");
+    }, 800);
+}
 const cells = document.querySelectorAll(".ttt-cell");
 const turnIndicator = document.getElementById("turn-indicator");
 const p1ScoreDisplay = document.getElementById("p1-score");
@@ -24,8 +51,29 @@ const p1TableScore = document.getElementById("p1-total");
 const p2TableScore = document.getElementById("p2-total");
 const banner = document.getElementById("winner-banner");
 
+//sound settings
+function soundHandler() {
+    if (allowSound) {
+        gameMusic.play();
+    } else {
+        gameMusic.pause();
+        homeMusic.pause();
+    }
+}
+function playClickSound() {
+    if (allowSound) {
+        clickSound.currentTime = 0;
+        clickSound.play();
+    }
+}
+
 // Go home button on the game page
 function goHome() {
+    //initializing audio
+    if(allowSound){
+        homeMusic.play();
+        gameMusic.pause();
+    }
     // Resetting UI
     document.getElementById("home-screen").style.display = "block";
     document.getElementById("name-input-screen").style.display = "none";
@@ -75,6 +123,7 @@ function selectMode(mode) {
 
 // Game begins... setting up the board
 function startGame() {
+    soundHandler();
     timerInterval = window.setInterval(gameTimer,1000);
     const name1 = document.getElementById("player1").value || "Player 1";
     const name2 = isVsComputer ? "Computer" : (document.getElementById("player2")?.value || "Player 2");
@@ -85,7 +134,7 @@ function startGame() {
     p2TableName.textContent = `${name2}`;
 
     resetBoard();
-
+    homeMusic.pause();
     document.getElementById("name-input-screen").style.display = "none";
     document.getElementById("tic-grid").style.display = "grid";
     document.getElementById("turn-indicator").style.display = "block";
@@ -248,6 +297,12 @@ function showWinnerBanner(message) {
     },2500);
 }
 
+function setBoardInteractivity(enabled) {
+    cells.forEach(cell => {
+        cell.disabled = !enabled || cell.textContent !== "?";
+    });
+}
+
 function handleClick(index) {
     if (board[index] !== "") return;
 
@@ -278,6 +333,7 @@ function handleClick(index) {
     updateTurnText();
 
     if (isVsComputer && currentPlayer === "O") {
+        setBoardInteractivity(false);
         setTimeout(computerMove, 500);
     }
 }
@@ -289,10 +345,15 @@ function computerMove() {
 
     let move = available[Math.floor(Math.random() * available.length)];
     handleClick(move);
+    setBoardInteractivity(true);
 }
 
+
 cells.forEach((cell, index) => {
-    cell.addEventListener("click", () => handleClick(index));
+    cell.addEventListener("click", () => {
+        handleClick(index);
+        playClickSound();
+    });
 });
 
 document.getElementById("btn-restart").addEventListener("click", resetBoard);
