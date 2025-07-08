@@ -63,6 +63,6 @@
 
 ## Contributors
 - Maina Kamau - css/html/js.
-- Desmond Tutu - js/css/html.
+- Desmond Tutu - js/css/html. https://github.com/DesmondTutu254
 - Junior Machogu - css/html alternative implementation / idea.
 
